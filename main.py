@@ -87,6 +87,7 @@ def send_vpn_files(message):
                 profile_name = f"{itmo_id}_{i}"
                 config_file_path = os.path.join(config.config_directory, f"{profile_name}.ovpn")
 
+
                 if not os.path.exists(config_file_path):
                     subprocess.run(['pivpn', 'add', '-n', profile_name, 'nopass', '-d', '3560'], check=True)
 

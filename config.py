@@ -1,3 +1,8 @@
-db_url = 'postgresql://postgres:postgres123@localhost:5432/suir_vpn'
-tg_token = '503351084:AAFISVpV2EMBmuTjRVbsqdMVyDeBPGRsUNU'
-config_directory = '/ovpns/'
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+db_url = os.getenv('DB_URL')
+tg_token = os.getenv('BOT_TOKEN')
+config_directory = 'ovpns/'
