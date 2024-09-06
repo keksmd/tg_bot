@@ -21,8 +21,12 @@ def handle_start(message):
     user = user_service.get_by_telegram_id(message.chat.id)
     if not user:
         user_service.create_user(message.chat.id, message.from_user.username)
-    answer = bot.send_message(message.chat.id, text)
-    bot.register_next_step_handler(answer, handle_itmo_id)
+        answer = bot.send_message(message.chat.id, text)
+        bot.register_next_step_handler(answer, handle_itmo_id)
+    elif user.verified:
+        bot.send_message(message.chat.id, 'Ты уже зарегистрирован в системе', reply_markup=main_keyboard())
+    else:
+        bot.send_message(message.chat.id, 'Ты уже зарегистрирован в системе')
 
 
 def handle_itmo_id(message):
@@ -36,12 +40,14 @@ def handle_itmo_id(message):
         admins = user_service.get_admins()
         text_to_admin = f'''
         Подтвердите пользователя @{username}\n
-        Он указал itmo_id {itmo_id}
+        Он указал itmo_id {itmo_id}\n
+        Ссылка на профиль[https://my.itmo.ru/persons/{itmo_id}]
         '''
         for admin in admins:
             bot.send_message(admin.telegram_id,
                              text_to_admin,
-                             reply_markup=verify_itmo_id_markup(telegram_id, itmo_id))
+                             reply_markup=verify_itmo_id_markup(telegram_id, itmo_id),
+                             parse_mode='Markdown')
     except:
         bot.reply_to(message, 'Неверный itmo_id')
 
@@ -109,7 +115,11 @@ def send_vpn_files(message):
 
 
 def send_instruction(message):
-    bot.send_message(message.chat.id, 'Установи приложуху и вставь туда файлы')
+    bot.send_message(message.chat.id,
+                     '''
+                     Установи приложение OpenVPN[https://openvpn.net/client/]\n'
+                     Вставь туда полученный тобой файл конфигурации. **Используй 1 файл на одно устройство**''',
+                     parse_mode='Markdown')
 
 
 @bot.message_handler(func=lambda message: True)
