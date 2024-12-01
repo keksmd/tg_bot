@@ -1,0 +1,133 @@
+openapi: "3.1.0"
+info:
+  title: "AfishaParser API"
+  description: "AfishaParser API"
+  version: "1.0.0"
+servers:
+  - url: "https://AfishaParser"
+paths:
+  /tg/bot/api/events/day:
+    get:
+      summary: "GET tg/bot/api/events/day"
+      operationId: "getEventsForDay"
+      parameters:
+        - name: "unix_time_date"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "page_number"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "page_size"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SimpleEventDto"
+  /tg/bot/api/events/week:
+    get:
+      summary: "GET tg/bot/api/events/week"
+      operationId: "getEventsForWeek"
+      parameters:
+        - name: "unix_time_monday"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "page_number"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "page_size"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SimpleEventDto"
+components:
+  schemas:
+    SimpleLocation:
+      type: "object"
+      properties:
+        city:
+          type: "string"
+          enum:
+            - "MOSCOW"
+            - "SPB"
+            - "NULL"
+        name:
+          type: "string"
+        address:
+          type: "string"
+    SimpleEventDto:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        description:
+          type: "string"
+        location:
+          $ref: "#/components/schemas/SimpleLocation"
+        id:
+          type: "string"
+        type:
+          type: "string"
+          enum:
+            - "EVENT"
+            - "REPEAT"
+            - "PLACE"
+        times:
+          type: "array"
+          items:
+            type: "string"
+            format: "date-time"
+        allImages:
+          type: "array"
+          items:
+            type: "array"
+        mainImage:
+          type: "array"
+          items:
+            type: "string"
+            format: "byte"
+        price:
+          type: "string"
+        tags:
+          type: "array"
+          items:
+            type: "string"
+        categories:
+          type: "array"
+          items:
+            type: "string"
+        priceType:
+          type: "string"
+          enum:
+            - "PRICELESS"
+            - "TICKET"
+            - "HOUR"
+            - "AVERAGE_BILL"
+        shortDescription:
+          type: "string"
