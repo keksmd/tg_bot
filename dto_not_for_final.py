@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, ValidationError, validator
 from typing import List, Optional
 from datetime import datetime
 
+# Этот файл как пример - не используется в боте
 
 class SimpleLocation(BaseModel):
     city: str = Field(..., enum=["MOSCOW", "SPB", "NULL"])
