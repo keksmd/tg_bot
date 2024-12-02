@@ -10,8 +10,9 @@ def verify_itmo_id_markup(telegram_id: int, itmo_id: int):
 
 
 def main_keyboard():
+    # вместо new_meeting и get_bonus может быть написано что угодно
     markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-    vpn_button = KeyboardButton('Получить файлы для VPN')
-    instruction = KeyboardButton('Инструкция по подключению')
-    markup.add(vpn_button, instruction)
+    new_meeting = KeyboardButton('Узнать про новые события')
+    get_bonus = KeyboardButton('Получить бонус')
+    markup.add(new_meeting, get_bonus)
     return markup
